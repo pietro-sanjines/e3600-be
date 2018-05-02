@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'v1', 'middleware' => 'cors'], function(){
     Route::resource('author', 'AuthorController');
     Route::resource('book', 'BookController');
+    Route::resource('bookstore', 'BookstoreController');
     Route::resource('editor', 'EditorController');
     Route::resource('gender', 'GenderController');
     Route::resource('manuscript', 'ManuscriptController');

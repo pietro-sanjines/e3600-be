@@ -38,6 +38,19 @@ class GenderController extends Controller{
     }
 
     public function destroy($id){
-        
+        $gender = Gender::findOrFail($id);
+        if (!$gender) {
+            $response = Response::json([
+                'message' => 'No se encontro el Genero.'
+            ], 404);
+            return $response;
+        }
+        $gender->delete();
+        $message = 'El genero ah sido eliminado de modo correcto';
+        $response = Response::json([
+            'message' => $message,
+            'data' => $gender
+        ]);
+        return $response;
     }
 }

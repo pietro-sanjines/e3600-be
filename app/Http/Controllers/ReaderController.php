@@ -37,6 +37,19 @@ class ReaderController extends Controller{
     }
 
     public function destroy($id){
-        
+        $reader = Reader::findOrFail($id);
+        if (!$reader) {
+            $response = Response::json([
+                'message' => 'No se encontro el Lector.'
+            ], 404);
+            return $response;
+        }
+        $reader->delete();
+        $message = 'El lector ah sido eliminado de modo correcto';
+        $response = Response::json([
+            'message' => $message,
+            'data' => $reader
+        ]);
+        return $response;
     }
 }

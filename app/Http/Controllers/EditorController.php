@@ -37,6 +37,19 @@ class EditorController extends Controller{
     }
 
     public function destroy($id){
-        
+        $editor = Editor::findOrFail($id);
+        if (!$editor) {
+            $response = Response::json([
+                'message' => 'No se encontro el Editor.'
+            ], 404);
+            return $response;
+        }
+        $editor->delete();
+        $message = 'El editor ah sido eliminado de modo correcto';
+        $response = Response::json([
+            'message' => $message,
+            'data' => $editor
+        ]);
+        return $response;
     }
 }

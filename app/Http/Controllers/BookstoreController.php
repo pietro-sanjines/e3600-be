@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Response;
 
 class BookstoreController extends Controller{
     public function index(){
-        $book = Book::all();
-        $response = Response::json($book);
+        $bookstore = Bookstore::all();
+        $response = Response::json($bookstore);
         return $response;
     }
 
@@ -18,11 +18,11 @@ class BookstoreController extends Controller{
     }
 
     public function store(Request $request){
-        return Book::create($request->all());
+        return Bookstore::create($request->all());
     }
 
     public function show($id){
-        return Book::find($id);
+        return Bookstore::find($id);
     }
 
     public function edit($id){
@@ -30,13 +30,26 @@ class BookstoreController extends Controller{
     }
 
     public function update(Request $request, $id){
-        $book = Book::findOrFail($id);
-        $book->update($request->all());
+        $bookstore = Bookstore::findOrFail($id);
+        $bookstore->update($request->all());
 
-        return $book;
+        return $bookstore;
     }
 
     public function destroy($id){
-        
+        $bookstore = Bookstore::findOrFail($id);
+        if (!$bookstore) {
+            $response = Response::json([
+                'message' => 'No se encontro la libreria.'
+            ], 404);
+            return $response;
+        }
+        $bookstore->delete();
+        $message = 'La libreria se ah sido eliminado de modo correcto';
+        $response = Response::json([
+            'message' => $message,
+            'data' => $bookstore
+        ]);
+        return $response;
     }
 }
